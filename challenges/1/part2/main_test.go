@@ -11,23 +11,16 @@ func TestSolve(t *testing.T) {
 	t.Run("", func(t *testing.T) {
 		inputName := "test.input"
 		input, err := getInput(inputName)
-		assert.Nil(t, err)
 		require.Nil(t, err)
 
-		assert.NotEmpty(t, input)
 		l1, l2, err := getListsFromInput(input)
-		assert.Nil(t, err)
 		require.Nil(t, err)
+		assert.Equal(t, []int{3, 4, 2, 1, 3, 3}, l1)
+		assert.Equal(t, []int{4, 3, 5, 3, 9, 3}, l2)
 
-		assert.Equal(t, 6, len(l1))
-		assert.Equal(t, 6, len(l2))
-		assert.Equal(t, []int{1, 2, 3, 3, 3, 4}, l1)
-		assert.Equal(t, []int{3, 3, 3, 4, 5, 9}, l2)
-
-		distances := calculateDistances(l1, l2)
-		assert.Equal(t, 6, len(distances))
-		assert.Equal(t, []int{2, 1, 0, 1, 2, 5}, distances)
-
-		assert.Equal(t, 11, totalDistances(distances))
+		similarities := calculateSimilarities(l1, l2)
+		assert.Equal(t, 6, len(similarities))
+		assert.Equal(t, []int{9, 4, 0, 0, 9, 9}, similarities)
+		assert.Equal(t, 31, sum(similarities))
 	})
 }

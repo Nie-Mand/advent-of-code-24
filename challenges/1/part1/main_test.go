@@ -15,7 +15,7 @@ func TestSolve(t *testing.T) {
 		require.Nil(t, err)
 
 		assert.NotEmpty(t, input)
-		l1, l2, err := getListsFromInput(input)
+		l1, l2, err := getListsFromInputSorted(input)
 		assert.Nil(t, err)
 		require.Nil(t, err)
 
@@ -28,6 +28,6 @@ func TestSolve(t *testing.T) {
 		assert.Equal(t, 6, len(distances))
 		assert.Equal(t, []int{2, 1, 0, 1, 2, 5}, distances)
 
-		assert.Equal(t, 11, totalDistances(distances))
+		assert.Equal(t, 11, sum(distances))
 	})
 }

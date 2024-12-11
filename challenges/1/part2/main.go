@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
-	"slices"
 	"strings"
 )
 
@@ -27,27 +25,44 @@ func getListsFromInput(input string) ([]int, []int, error) {
 		fmt.Sscanf(lines[i], "%d %d", &l1[i], &l2[i])
 	}
 
-	slices.Sort(l1)
-	slices.Sort(l2)
+	// slices.Sort(l1)
+	// slices.Sort(l2)
 
 	return l1, l2, nil
 }
 
-func calculateDistances(l1, l2 []int) []int {
+func _getOccurances(l []int) map[int]int {
+	occurances := make(map[int]int)
+	for i := 0; i < len(l); i++ {
+		key := l[i]
+		_, ok := occurances[key]
+		if ok {
+			occurances[key] += 1
+		} else {
+			occurances[key] = 1
+		}
+	}
+
+	return occurances
+}
+
+func calculateSimilarities(l1, l2 []int) []int {
+	occurances := _getOccurances(l2)
+
 	d := make([]int, len(l1))
-	for i := 0; i < len(d); i++ {
-		d[i] = int(math.Abs(float64(l1[i] - l2[i])))
+	for i := 0; i < len(l1); i++ {
+		d[i] = l1[i] * occurances[l1[i]]
 	}
 	return d
 }
 
-func totalDistances(d []int) int {
-	sum := 0
+func sum(d []int) int {
+	_sum := 0
 	for _, item := range d {
-		sum += item
+		_sum += item
 	}
 
-	return sum
+	return _sum
 }
 
 func handleError(err error) {
@@ -64,6 +79,6 @@ func main() {
 	l1, l2, err := getListsFromInput(input)
 	handleError(err)
 
-	distances := calculateDistances(l1, l2)
-	fmt.Println("totalDifferences", totalDistances(distances))
+	distances := calculateSimilarities(l1, l2)
+	fmt.Println("totalSimilarities", sum(distances))
 }

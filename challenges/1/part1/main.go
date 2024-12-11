@@ -17,7 +17,7 @@ func getInput(filename string) (string, error) {
 	return strings.Trim(string(content), "\n"), nil
 }
 
-func getListsFromInput(input string) ([]int, []int, error) {
+func getListsFromInputSorted(input string) ([]int, []int, error) {
 	lines := strings.Split(input, "\n")
 	len := len(lines)
 	l1 := make([]int, len)
@@ -41,13 +41,13 @@ func calculateDistances(l1, l2 []int) []int {
 	return d
 }
 
-func totalDistances(d []int) int {
-	sum := 0
+func sum(d []int) int {
+	_sum := 0
 	for _, item := range d {
-		sum += item
+		_sum += item
 	}
 
-	return sum
+	return _sum
 }
 
 func handleError(err error) {
@@ -61,9 +61,9 @@ func main() {
 	input, err := getInput(inputName)
 	handleError(err)
 
-	l1, l2, err := getListsFromInput(input)
+	l1, l2, err := getListsFromInputSorted(input)
 	handleError(err)
 
 	distances := calculateDistances(l1, l2)
-	fmt.Println("totalDifferences", totalDistances(distances))
+	fmt.Println("totalDifferences", sum(distances))
 }
