@@ -25,9 +25,6 @@ func getListsFromInput(input string) ([]int, []int, error) {
 		fmt.Sscanf(lines[i], "%d %d", &l1[i], &l2[i])
 	}
 
-	// slices.Sort(l1)
-	// slices.Sort(l2)
-
 	return l1, l2, nil
 }
 
