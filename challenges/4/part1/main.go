@@ -48,6 +48,60 @@ func (t *Traversal) next(x, y int) []P {
 	return next
 }
 
+func (t *Traversal) leads(p1, p2 P) bool {
+	if t.at(p1.x, p1.y) != "X" && t.at(p2.x, p2.y) != "M" {
+		return false
+	}
+
+	stepX := p2.x - p1.x
+	stepY := p2.y - p1.y
+
+	for i := 0; i < 3; i++ {
+		if t.at(p1.x+stepX, p1.y+stepY) != after(t.at(p1.x, p1.y)) {
+			return false
+		}
+
+		p1 = p(p1.x+stepX, p1.y+stepY)
+	}
+
+	return true
+}
+
+func (t *Traversal) countLeads(p P) int {
+	paths := t.paths(p.x, p.y)
+	count := 0
+	for _, p2 := range paths {
+		if t.leads(p, p2) {
+			count++
+		}
+	}
+
+	return count
+}
+
+func (t *Traversal) allStarts() []P {
+	starts := []P{}
+	for y, row := range t.input {
+		for x, c := range row {
+			if c == 'X' {
+				starts = append(starts, p(x, y))
+			}
+		}
+	}
+
+	return starts
+}
+
+func (t *Traversal) solve() int {
+	starts := t.allStarts()
+	count := 0
+	for _, p := range starts {
+		count += t.countLeads(p)
+	}
+
+	return count
+}
+
 func (t *Traversal) paths(x, y int) []P {
 	paths := []P{
 		p(x+1, y),
@@ -98,5 +152,9 @@ func handleError(err error) {
 }
 
 func main() {
-
+	filename := "puzzle.input"
+	input, err := loadInput(filename)
+	handleError(err)
+	t := traverse(input)
+	println(t.solve())
 }

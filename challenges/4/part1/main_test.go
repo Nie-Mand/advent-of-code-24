@@ -33,5 +33,12 @@ func TestSolve(t *testing.T) {
 
 		assert.Equal(t, []P{{5, 1}, {3, 1}}, T.next(4, 0))
 		assert.Equal(t, []P{{6, 0}, {5, 1}}, T.next(5, 0))
+
+		assert.Equal(t, true, T.leads(P{4, 0}, P{5, 1}))
+		assert.Equal(t, false, T.leads(P{4, 0}, P{3, 1}))
+		assert.Equal(t, 1, T.countLeads(P{4, 0}))
+
+		assert.Equal(t, 19, len(T.allStarts()))
+		assert.Equal(t, 18, T.solve())
 	})
 }
